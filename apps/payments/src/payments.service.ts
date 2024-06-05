@@ -10,7 +10,7 @@ export class PaymentsService {
   private readonly stripe = new Stripe(
     this.configService.get('STRIPE_SECRET_KEY'),
     {
-      apiVersion: '2023-10-16',
+      apiVersion: '2024-04-10',
     },
   );
 
@@ -31,7 +31,7 @@ export class PaymentsService {
       amount: amount * 100,
       confirm: true,
       payment_method_types: ['card'],
-      currency: 'usd',
+      currency: 'brl',
     });
 
     this.notificationsService.emit('notify_email', {

@@ -48,3 +48,59 @@ main.ts
 - Add into apps/auth/src/main.ts:
     - app.connectMicroservice({ transport: Transport.TCP })
     - await app.startAllMicroservices()
+
+
+## Payment service
+- nest g app payments
+- npm i stripe
+
+## Notification service (NODEMAILER and GMAIL)
+- nest g app notifications
+- Dockerfile and .env
+- add service into docker-compose.yml
+- setup main.ts
+- npm i nodemailer
+- npm i -D @types/nodemailer
+
+- Access console.cloud.google.com
+- new Project -> Sleepr
+-> APIs and services > OAuth consent screen > select External + Create
+- Add app name, support email and developer email address. + Test user (email).
+- Credentials > Create credentials > OAuth client ID > URIs: https://developers.google.com/oauthplayground > Create.
+- Copy credentials and paste into .env
+- Access https://developers.google.com/oauthplayground/
+- Settings > Use your own OAuth credentials > Paste client id and secret. > Close.
+- Select Gmail API v1 > Click Authorize APIs > Click Exchange authorization code for tokens
+
+
+
+## Rule
+- send -> MessagePattern
+- emit -> EventPattern
+
+
+## Endpoints
+- Create user :: POST http://localhost:3001/users
+    - email and password
+
+- Login :: POST http://localhost:3001/auth/login
+    - email and password
+    - after request, check token in Cookies
+
+- Create reservation :: POST http://localhost:3000/reservations
+ ```json
+  {
+    "startDate": "02-01-2023",
+    "endDate": "02-05-2023",
+    "placeId": "123",
+    "charge": {
+        "amount": 5,
+        "card": {
+            "cvc": "413",
+            "exp_month": 12,
+            "exp_year": 2027,
+            "number": "4242 4242 4242 4242"
+        }
+    }
+  }
+ ```
