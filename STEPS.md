@@ -104,3 +104,33 @@ main.ts
     }
   }
  ```
+ 
+## Google Cloud
+- Access console.cloud.google.com
+- Activate free trial
+- Artifact Registry API > Enable
+    - Create repository > reservations > Docker > us-east4 > Create.
+    - Same for auth | notifications | payments.
+    - Click in one of them > SETUP INSTRUCTIONS > Google Cloud SDK
+        - quickstart > install it.
+        - run: gcloud config configurations create sleepr
+        - run: gcloud config set project sleepr-<projectId>
+    - Click in one of them > SETUP INSTRUCTIONS > Application Default Credentials
+        - run: gcloud auth application-default login
+        - run: gcloud artifacts repositories list
+        - run: gcloud auth configure-docker us-east4-docker.pkg.dev 
+        - cp apps/reservations > run docker build -t reservations -f . ../../
+        - back in gcloud console > artifacts registry > reservations > copy (URI)
+        - run: docker tag reservations <gcloud_repository_uri>/production
+        - run: docker image push <gcloud_repository_uri>/production
+        - refresh the page and see the image created.
+        - repeat for auth | notifications | payment
+
+- Search for Google Container Registry API > Enable ?? don't know if this is required.
+
+## Tip: build docker image
+- cd auth
+- docker build -t auth -f . ../../
+
+## Google Cloud CI/CD
+- Create cloudbuild.yaml
