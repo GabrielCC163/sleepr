@@ -134,3 +134,6 @@ main.ts
 
 ## Google Cloud CI/CD
 - Create cloudbuild.yaml
+- Access console.cloud.google.com > Cloud Build API > Enable
+    - Setup build trigger
+    - name: sleepr-push | push to a branch | 1st generation | repo: github | branch: ^main$ | autodetect
