@@ -137,3 +137,36 @@ main.ts
 - Access console.cloud.google.com > Cloud Build API > Enable
     - Setup build trigger
     - name: sleepr-push | push to a branch | 1st generation | repo: github | branch: ^main$ | autodetect
+    - push changes and check cloud build dashboard
+
+## Helm Chart (Kubernetes)
+- Install helm
+- Create k8s folder
+- helm create sleepr
+- kubectl create deployment reservations --image=<image_name>/production --dry-run=client -o yaml > deployment.yaml
+    - image_name = GCloud Artifact Registry > Repositories > Copy image name (ex: us-east4-docker.pkg.dev/sleepr-378423/reservations)
+- cd k8s/sleepr && helm install sleepr .
+- kubectl get po (error)
+- solve error
+    - gcloud > api & services > credentials > Create credentials > service account
+        - artifact-image-pull
+        - create and continue
+        - role: Artifact Registry > Artifact Registry Reader
+        - done
+    - click on it.
+    - keys > add key > download
+- kubectl create secret docker-registry gcr-json-key --docker-server=<name> --docker-username=_json_key --docker-password="$(cat ./sleepr-<12345-abcde>.json)" --docker-email=<sleeprnestjsapp9@gmail.com>
+    - name = gcloud > artifact registry > repositories > select reservations > click setup instructions, select ex: us-east4-docker.pkg.dev
+- kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "gcr-json.key"}]}'
+- kubectl rollout restart deployment reservations
+- kubectl get po (error .env)
+- repeat for auth, payments and notifications
+- cd k8s && helm upgrade sleepr .
+- kubectl get po
+
+## Mongodb Atlas
+- setup mongodb account and cluster
+- kubectl create secret generic mongodb --from-literal=connectionString=<mongodburi>
+- kubectl get secrets
+- kubectl get secret mongodb -o yaml
+- cd k8s && helm upgrade sleepr .
