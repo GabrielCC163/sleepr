@@ -1,3 +1,6 @@
+## FROM
+https://github.com/mguay22/sleepr
+
 ## Create a new library
 - nest generate library common
 Check nest-cli.json and libs folder
@@ -204,3 +207,9 @@ version 2 > connect to github > Connect. > Branch: main > select AWSCodeBuild > 
 - VSCode > Create a launch.json file
 - docker compose up
 - VSCode > Run and debug > Run.
+
+## Typeorm
+- check repo https://github.com/mguay22/sleepr branch typeorm
+- change database.module.ts
+- change abstract.schema.ts to abstract.entity.ts
+- change abstract.repository.ts
