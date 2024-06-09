@@ -170,3 +170,37 @@ main.ts
 - kubectl get secrets
 - kubectl get secret mongodb -o yaml
 - cd k8s && helm upgrade sleepr .
+
+.........................
+
+## AWS (EKS - Kubernetes, External Load Balancer, CI/CD) 
+- ECR > Create (to be able to push our docker images to AWS)
+    - private | reservations (do the same for auth, notifications and payments)
+- CLI :: https://aws.amazon.com/cli/ >> install it
+    - aws configure (setup new credentials)
+        - UI console > username > Security credentials > access keys > Create > copy access key and secret key
+    - us-east-1
+- ECR > Repositories > push commands > execute them.
+- Create buildspec.yaml to build automatically.
+
+- Built images :: AWS > CodePipeline > Create (sleepr) | new service role. > Github 
+version 2 > connect to github > Connect. > Branch: main > select AWSCodeBuild > Create project > os: Amazon linux 2 > priviledge > ....standard4.0 > next > skip deploy stage. > Create pipeline
+    - IAM > codebuild-sleepr-service-role > add permission > ec2instanceprofileforimagebuilderecrcontainerbuilds. > add permissions.
+    - CodePipeline > release change
+
+- Deploy images :: EKS Cluster (eksctl.io)
+    - install eksctl
+    - run eksctl get clusters
+    - check course class 
+
+
+## E2E tests
+- Create e2e project folder
+- Create Dockerfile and docker-compose.yml
+- docker compose up e2e
+
+## Debugging
+- add '9229:9229' to ports (reservation service), change command to start:debug
+- VSCode > Create a launch.json file
+- docker compose up
+- VSCode > Run and debug > Run.
